@@ -6,7 +6,7 @@ let storyList;
 /** Get and show stories when site first loads. */
 
 async function getAndShowStoriesOnStart() {
-  storyList = await StoryList.getStories();
+  storyList = await StoryList.getStories(); // at models.js
   $storiesLoadingMsg.remove();
 
   putStoriesOnPage();
@@ -20,9 +20,9 @@ async function getAndShowStoriesOnStart() {
  */
 
 function generateStoryMarkup(story) {
-  // console.debug("generateStoryMarkup", story);
+  console.debug("generateStoryMarkup", story);
 
-  const hostName = story.getHostName();
+  const hostName = story.getHostName(); // at models.js
   return $(`
       <li id="${story.storyId}">
         <a href="${story.url}" target="a_blank" class="story-link">
@@ -50,3 +50,27 @@ function putStoriesOnPage() {
 
   $allStoriesList.show();
 }
+
+
+/** Gets data from submit story form */
+
+async function submitNewStory(e) {
+  console.debug("getStoryDataOnSubmit");
+  e.preventDefault();
+
+  const title = $('#submit-title').val();
+  const author = $('#submit-author').val();
+  const url = $('#submit-url').val();
+  const username = currentUser.username;
+  const storyData = {title, author, url, username};
+
+  const story = await storyList.addStory(currentUser, storyData); // at models.js
+
+  const $story = generateStoryMarkup(story);
+  $allStoriesList.prepend($story);
+
+  $submitForm.trigger('reset');
+  $submitForm.hide();
+}
+
+$submitForm.on('submit', submitNewStory);

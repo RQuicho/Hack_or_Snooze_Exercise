@@ -14,6 +14,9 @@ const $navLogin = $("#nav-login");
 const $navUserProfile = $("#nav-user-profile");
 const $navLogOut = $("#nav-logout");
 
+const $submitForm = $('#submit-form');
+const $navSubmitStory = $('#nav-submit-story');
+
 /** To make it easier for individual components to show just themselves, this
  * is a useful function that hides pretty much everything on the page. After
  * calling this, individual components can re-show just what they want.
@@ -24,6 +27,7 @@ function hidePageComponents() {
     $allStoriesList,
     $loginForm,
     $signupForm,
+    $submitForm,
   ];
   components.forEach(c => c.hide());
 }
@@ -34,11 +38,11 @@ async function start() {
   console.debug("start");
 
   // "Remember logged-in user" and log in, if credentials in localStorage
-  await checkForRememberedUser();
-  await getAndShowStoriesOnStart();
+  await checkForRememberedUser(); // at user.js
+  await getAndShowStoriesOnStart(); // at stories.js
 
   // if we got a logged-in user
-  if (currentUser) updateUIOnUserLogin();
+  if (currentUser) updateUIOnUserLogin(); // at user.js
 }
 
 // Once the DOM is entirely loaded, begin the app

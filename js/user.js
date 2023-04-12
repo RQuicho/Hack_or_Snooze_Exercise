@@ -19,12 +19,12 @@ async function login(evt) {
 
   // User.login retrieves user info from API and returns User instance
   // which we'll make the globally-available, logged-in user.
-  currentUser = await User.login(username, password);
+  currentUser = await User.login(username, password); // at models.js
 
   $loginForm.trigger("reset");
 
-  saveUserCredentialsInLocalStorage();
-  updateUIOnUserLogin();
+  saveUserCredentialsInLocalStorage(); // see below
+  updateUIOnUserLogin(); // see below
 }
 
 $loginForm.on("submit", login);
@@ -41,10 +41,10 @@ async function signup(evt) {
 
   // User.signup retrieves user info from API and returns User instance
   // which we'll make the globally-available, logged-in user.
-  currentUser = await User.signup(username, password, name);
+  currentUser = await User.signup(username, password, name); // at models.js
 
-  saveUserCredentialsInLocalStorage();
-  updateUIOnUserLogin();
+  saveUserCredentialsInLocalStorage(); // see below
+  updateUIOnUserLogin(); // see below
 
   $signupForm.trigger("reset");
 }
@@ -59,7 +59,7 @@ $signupForm.on("submit", signup);
 function logout(evt) {
   console.debug("logout", evt);
   localStorage.clear();
-  location.reload();
+  location.reload(); // method reload the current URL, like a refresh button
 }
 
 $navLogOut.on("click", logout);
@@ -79,7 +79,7 @@ async function checkForRememberedUser() {
   if (!token || !username) return false;
 
   // try to log in with these credentials (will be null if login failed)
-  currentUser = await User.loginViaStoredCredentials(token, username);
+  currentUser = await User.loginViaStoredCredentials(token, username); // at models.js
 }
 
 /** Sync current user information to localStorage.
@@ -112,5 +112,5 @@ function updateUIOnUserLogin() {
 
   $allStoriesList.show();
 
-  updateNavOnLogin();
+  updateNavOnLogin(); // at nav.js
 }

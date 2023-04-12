@@ -8,19 +8,30 @@
 
 function navAllStories(evt) {
   console.debug("navAllStories", evt);
-  hidePageComponents();
-  putStoriesOnPage();
+  hidePageComponents(); // at main.js
+  putStoriesOnPage(); // at stories.js
 }
 
 $body.on("click", "#nav-all", navAllStories);
+
+/** When user clicks submit, submit form shows */
+
+const navSubmitStoryClick = (evt) => {
+  console.debug("navSubmitStoryClick", evt);
+  hidePageComponents(); // at main.js
+  $allStoriesList.show(); // at main.js
+  $submitForm.show(); // at main.js
+}
+
+$navSubmitStory.on("click", navSubmitStoryClick);
 
 /** Show login/signup on click on "login" */
 
 function navLoginClick(evt) {
   console.debug("navLoginClick", evt);
-  hidePageComponents();
-  $loginForm.show();
-  $signupForm.show();
+  hidePageComponents(); // at main.js
+  $loginForm.show(); // at main.js
+  $signupForm.show(); // at main.js
 }
 
 $navLogin.on("click", navLoginClick);
@@ -34,3 +45,5 @@ function updateNavOnLogin() {
   $navLogOut.show();
   $navUserProfile.text(`${currentUser.username}`).show();
 }
+
+
