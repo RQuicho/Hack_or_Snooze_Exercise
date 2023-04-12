@@ -204,4 +204,29 @@ class User {
       return null;
     }
   }
+
+  /** Add a story to favorites for existing user */
+
+  async addFavorite(story) {
+    this.favorites.push(story);
+    const token = this.loginToken;
+    await axios({
+      url: `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
+      method: "POST",
+      data: {token},
+    });
+  }
+
+  /** Remove a story from favorites for existing user */
+
+  async removeFavorite(story) {
+    this.favorites.filter(s => s.storyId !== story.storyId);
+    const token = this.loginToken;
+    await axios({
+      url: `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
+      method: "DELETE",
+      data: {token},
+    });
+  }
+
 }

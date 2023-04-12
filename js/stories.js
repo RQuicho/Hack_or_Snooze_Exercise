@@ -74,3 +74,45 @@ async function submitNewStory(e) {
 }
 
 $submitForm.on('submit', submitNewStory);
+
+
+/** Adds Favorites list to page  */
+
+async function addFavoritesListOnPage() {
+  console.debug('addFavoritesListOnPage');
+
+  $favoriteStories.empty();
+
+  if(currentUser.favorites.length === 0) {
+    $favoriteStories.append("<h5>No favorites have been added</h5>");
+  } else {
+    // loop through all of favorite stories and generate HTML for them
+    for (let story of currentUser.favorites) {
+      const $story = generateStoryMarkup(story);
+      $favoriteStories.append($story);
+    }
+  }
+
+  $favoriteStories.show();
+}
+
+/** Toggles Favorites list on page  */
+
+async function toggleFavoriteStory(e) {
+  console.debug('toggleFavoriteStory');
+
+  const $tgt = $(e.target);
+  const $closestLi = $tgt.closest('li');
+  const storyId = $closestLi.attr('id');
+  const story = storyList.stories.find(s => s.storyId === storyId);
+
+  if($tgt.hasClass('fas')) {
+    await currentUser.removeFavorite(story);
+    $tgt.closest('i').toggleClass('fas far');
+  } else {
+    await currentUser.addFavorite(story);
+    $tgt.closest('i').toggleClass('fas far');    
+  }
+}
+
+$storiesLists.on('click', '.star', toggleFavoriteStory);
